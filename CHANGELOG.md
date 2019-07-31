@@ -1,3 +1,3 @@
 #### v1.0.0
 
-测试 soinopia 发布
+测试 sinopia 发布

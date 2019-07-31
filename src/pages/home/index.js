@@ -12,10 +12,6 @@ export class Home extends React.Component {
   }
 
   componentDidMount() {
-    fetch("http://127.0.0.1:8081/list_user")
-      .then(res => res.text())
-      .then(data => console.log(data))
-      .catch(e => console.log(e));
     const a = {
       id: 1,
       name: "a",
