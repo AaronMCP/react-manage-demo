@@ -1,0 +1,98 @@
+html,
+body {
+  position: relative;
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font: 14px"\5B8B\4F53", sans-serif;
+  background: #ffffff;
+}
+
+blockquote,
+dd,
+div,
+dl,
+dt,
+fieldset,
+form,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+input,
+li,
+ol,
+p,
+pre,
+textarea,
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+table,
+td,
+th,
+tr {
+  font-size: 12px;
+}
+
+li {
+  list-style-type: none;
+}
+
+img {
+  vertical-align: top;
+  border: 0;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 12px;
+  font-weight: normal;
+}
+
+address,
+cite,
+code,
+em,
+th {
+  font-weight: normal;
+  font-style: normal;
+}
+
+a {
+  text-decoration: none;
+}
+
+.nav {
+  width: 100%;
+
+  a {
+    display: inline-block;
+    padding: 0 20px;
+    height: 40px;
+    line-height: 40px;
+    color: $fontColor;
+
+    &.selected,
+    &:hover,
+    &:active {
+      color: $themeColor;
+    }
+  }
+}

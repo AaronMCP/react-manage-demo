@@ -1,5 +1,5 @@
 {
-  "extends": ["airbnb", "eslint:recommended", "plugin:react/recommended"],
+  "extends": ["airbnb", "eslint:recommended", "plugin:react/recommended", "prettier"],
   "parser": "babel-eslint",
   "env": {
     "node": true,
@@ -8,7 +8,7 @@
   },
   "parserOptions": {
     "ecmaVersion": 2017
-},
+  },
   "plugins": ["react"],
   "rules": {
     "indent": 0,
@@ -40,7 +40,7 @@
     "react/jsx-filename-extension": [
       1,
       {
-        "extensions": [".js", ".jsx"]
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     ]
   }
