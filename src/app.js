@@ -39,6 +39,9 @@ class App extends React.Component {
             <NavLink to="/Us" activeClassName="selected">
               我们
             </NavLink>
+            <NavLink to="/Debounce" activeClassName="selected">
+              防抖和节流
+            </NavLink>
           </div>
           <div className="container">
             <RouterRender routerConfig={routerConfig} {...this.props} />

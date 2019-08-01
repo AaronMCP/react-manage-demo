@@ -1,4 +1,4 @@
-import { Home, About, Us } from "./pages";
+import { Home, About, Us, Debounce } from "./pages";
 
 export const routerConfig = [
   {
@@ -13,5 +13,9 @@ export const routerConfig = [
   {
     path: "/Us",
     component: Us
+  },
+  {
+    path: "/Debounce",
+    component: Debounce
   }
 ];
