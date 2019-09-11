@@ -22,10 +22,9 @@ const paths = require('./paths');
 const getClientEnvironment = require("./env");
 
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP === 'true';
-// Check if TypeScript is setup
+// 检测typeScript
 const useTypeScript = fs.existsSync(paths.appTsConfig);
-// Some apps do not need the benefits of saving a web request, so not inlining the chunk
-// makes for a smoother build process.
+// 是否需要内联模块
 const shouldInlineRuntimeChunk = process.env.INLINE_RUNTIME_CHUNK !== 'false';
 const publicPath = paths.servedPath;
 const publicUrl = publicPath.slice(0, 1);
@@ -46,7 +45,7 @@ module.exports = {
   output: {
     path: paths.appBuild,
     filename: 'static/js/[name].[hash:8].js',
-    publicPath: publicPath,
+    publicPath,
     devtoolModuleFilenameTemplate: info =>
       path.relative(paths.appSrc, info.absoluteResourcePath).replace(/\\/g, "/")
   },
@@ -63,15 +62,14 @@ module.exports = {
   module: {
     strictExportPresence: true,
     rules: [
-      // Disable require.ensure as it's not a standard language feature.
+      // 禁用require.ensure
       // {
       //   parser: {
       //     requireEnsure: false
       //   }
       // },
 
-      // First, run the linter.
-      // It's important to do this before Babel processes the JS.
+      // babel处理js之前执行这些操作
       {
         test: /\.(js|jsx|ts|tsx)$/,
         enforce: 'pre',
@@ -96,11 +94,11 @@ module.exports = {
         }
       },
       {
-        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
-        loader: require.resolve('url-loader'),
+        test: /\.(jpg|png|gif|bmp|jpeg)$/,
+        loader: 'url-loader',
         options: {
           limit: 8192,
-          name: 'static/media[name].[hash:8].[ext]'
+          name: 'static/media/[name]-[hash:8].[ext]'
         }
       },
       {
@@ -121,23 +119,18 @@ module.exports = {
               indent: 'postcss',
               plugins: () => [
                 require('postcss-flexbugs-fixes'),
-                autoprefixer({
-                  browsers: [
-                    '>1%',
-                    'last 4 versions',
-                    'Firefox ESR',
-                    'not ie < 9',
-                  ],
-                  flexbox: 'no-2009'
-                }),
+                autoprefixer(),
                 postcssNormalize()
               ]
             }
+          },
+          {
+            loader: 'sass-loader'
           }
         ]
       },
       {
-        loader: require.resolve("file-loader"),
+        loader: "file-loader",
         exclude: [/\.(js|jsx|ts|tsx)$/, /\.html$/, /\.json$/, /.(css|scss|sass)/],
         options: {
           name: "static/media/[name].[hash:8].[ext]"
@@ -152,11 +145,7 @@ module.exports = {
       new TerserPlugin({
         terserOptions: {
           parse: {
-            // we want terser to parse ecma 8 code. However, we don't want it
-            // to apply any minfication steps that turns valid ecma 5 code
-            // into invalid ecma 5 code. This is why the 'compress' and 'output'
-            // sections only apply transformations that are ecma 5 safe
-            // https://github.com/facebook/create-react-app/pull/4234
+            // 
             ecma: 8,
           },
           compress: {
@@ -184,10 +173,7 @@ module.exports = {
             ascii_only: true,
           },
         },
-        // Use multi-process parallel running to improve the build speed
-        // Default number of concurrent runs: os.cpus().length - 1
-        // Disabled on WSL (Windows Subsystem for Linux) due to an issue with Terser
-        // https://github.com/webpack-contrib/terser-webpack-plugin/issues/21
+        // 使用多进程并行运行提高构建速度，在适用于Linux的Windows子系统上禁用
         parallel: !isWsl,
         // Enable file caching
         cache: true,

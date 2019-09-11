@@ -1,17 +1,15 @@
 'use strict';
 
-// Do this as the first thing so that any code reading it knows the right env.
+// 环境变量配置
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 
-// Makes the script crash on unhandled rejections instead of silently
-// ignoring them. In the future, promise rejections that are not handled will
-// terminate the Node.js process with a non-zero exit code.
+// 发生未处理错误时 抛出错误
 process.on('unhandledRejection', err => {
   throw err;
 });
 
-// Ensure environment variables are read.
+// 确保环境变量被读取
 require('../config/env');
 const path = require('path');
 const chalk = require('react-dev-utils/chalk');
@@ -30,7 +28,7 @@ const measureFileSizesBeforeBuild = FileSizeReporter.measureFileSizesBeforeBuild
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 const useYarn = fs.existsSync(paths.yarnLockFile);
 
-// These sizes are pretty large. We'll warn for bundles exceeding them.
+// 打包大小超过后会警告
 const WARN_AFTER_BUNDLE_GZIP_SIZE = 512 * 1024;
 const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
@@ -41,22 +39,17 @@ if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
   process.exit(1);
 }
 
-// We require that you explicitly set browsers and do not fall back to
-// browserslist defaults.
-
+// 浏览器配置
 checkBrowsers(paths.appPath, isInteractive)
   .then(() => {
-    // First, read the current file sizes in build directory.
-    // This lets us display how much they changed later.
+    // 读取build文件大小
     return measureFileSizesBeforeBuild(paths.appBuild);
   })
   .then(previousFileSizes => {
-    // Remove all content but keep the directory so that
-    // if you're in it, you don't end up in Trash
+    // 清空build文件夹中的内容
     fs.emptyDirSync(paths.appBuild);
-    // Merge with the public folder
+    // 拷贝public中的内容到build中
     copyPublicFolder();
-    // Start the webpack build
     return build(previousFileSizes);
   })
   .then(
@@ -113,21 +106,18 @@ checkBrowsers(paths.appPath, isInteractive)
     process.exit(1);
   });
 
-// Create the production build and print the deployment instructions.
+// 创建生产版本
 function build(previousFileSizes) {
-  // We used to support resolving modules according to `NODE_PATH`.
-  // This now has been deprecated in favor of jsconfig/tsconfig.json
-  // This lets you use absolute paths in imports inside large monorepos:
   if (process.env.NODE_PATH) {
     console.log(
       chalk.yellow(
-        'Setting NODE_PATH to resolve modules absolutely has been deprecated in favor of setting baseUrl in jsconfig.json (or tsconfig.json if you are using TypeScript) and will be removed in a future major release of create-react-app.'
+        '不推荐设置NODE_PATH以解析模块，而是在jsconfig.json中设置baseUrl（如果使用TypeScript则为tsConfig.json）！'
       )
     );
     console.log();
   }
 
-  console.log('Creating an optimized production build...');
+  console.log('开始构建生产版本...');
 
   const compiler = webpack(config);
   return new Promise((resolve, reject) => {
@@ -148,8 +138,7 @@ function build(previousFileSizes) {
         );
       }
       if (messages.errors.length) {
-        // Only keep the first error. Others are often indicative
-        // of the same problem, but confuse the reader with noise.
+        // 只保留第一份错误
         if (messages.errors.length > 1) {
           messages.errors.length = 1;
         }

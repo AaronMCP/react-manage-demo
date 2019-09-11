@@ -1,8 +1,12 @@
 import React from "react";
 
-export class About extends React.Component {
+export default class About extends React.Component {
   constructor(props) {
     super(props);
+    this.startY = 0;
+    this.endY = 0;
+    this.lastRotate = 0;
+    this.moveFlag = false;
   }
 
   componentDidMount() {
@@ -20,6 +24,20 @@ export class About extends React.Component {
       return arrR;
     }
     console.log(reduceArr(arrI));
+    this.div.addEventListener('mousedown', e => {
+      this.startY = e.clientY;
+      this.moveFlag = true;
+    });
+    document.addEventListener('mousemove', e => {
+      if (this.moveFlag) {
+        this.endY = this.startY - e.clientY + this.lastRotate;
+        this.div.style.transform = `rotate(${this.endY}deg)`;
+      }
+    });
+    document.addEventListener('mouseup', () => {
+      this.moveFlag = false;
+      this.lastRotate = this.endY;
+    });
   }
 
   add(a) {
@@ -28,7 +46,7 @@ export class About extends React.Component {
       a = a + b; // 累加
       return sum;
     }
-    sum.toString = function() {
+    sum.toString = function () {
       // 重写toString()方法
       return a;
     };
@@ -36,6 +54,13 @@ export class About extends React.Component {
   }
 
   render() {
-    return <div className="about">About </div>;
+    return (
+      <div className="about">
+        <div style={{ width: 200, height: 200, background: '#ccc', marginTop: 100, marginLeft:100 }}
+          ref={div=>this.div=div}>
+          rotate
+        </div>
+      </div>
+    );
   }
 }

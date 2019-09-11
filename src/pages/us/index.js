@@ -28,4 +28,5 @@ let hot = WrapComponent =>
       );
     }
   };
-export const Us =  hot(Child);
+const Us =  hot(Child);
+export default Us;

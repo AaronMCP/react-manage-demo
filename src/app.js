@@ -5,6 +5,7 @@ import { Redirect } from "react-router";
 import { routerConfig } from "./router-config";
 import "./styles/index.scss";
 
+
 const RouterRender = ({ routerConfig, ...other }) => {
   return routerConfig.map(route => {
     const { path, exact, props } = route;
@@ -41,6 +42,12 @@ class App extends React.Component {
             </NavLink>
             <NavLink to="/Debounce" activeClassName="selected">
               防抖和节流
+            </NavLink>
+            <NavLink to="/Rxjs/sub1/sub3" activeClassName="selected">
+              Rxjs
+            </NavLink>
+            <NavLink to="/VList" activeClassName="selected">
+              VList
             </NavLink>
           </div>
           <div className="container">

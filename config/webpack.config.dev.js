@@ -36,6 +36,12 @@ const getStyleLoaders = (cssOptions, preProcessor) => {
           postcssNormalize()
         ]
       }
+    },
+    {
+      loader: 'px2rem-loader',
+      options: {
+        remUni: 75
+      }
     }
   ];
   if (preProcessor) {
@@ -61,15 +67,6 @@ module.exports = {
   },
   module: {
     rules: [
-      // Disable require.ensure as it's not a standard language feature.
-      // {
-      //   parser: {
-      //     requireEnsure: false
-      //   }
-      // },
-
-      // First, run the linter.
-      // It's important to do this before Babel processes the JS.
       {
         test: /\.(js|jsx|ts|tsx)$/,
         enforce: "pre",
@@ -110,11 +107,11 @@ module.exports = {
         })
       },
       {
-        test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.png$/],
+        test: /\.(jpg|png|gif|bmp|jpeg)$/,
         loader: require.resolve("url-loader"),
         options: {
-          limit: 8192,
-          name: "static/media[name].[hash:8].[ext]"
+          limit: 11,
+          name: "static/media/[name].[hash:8].[ext]"
         }
       },
       {
@@ -159,14 +156,9 @@ module.exports = {
       chunkFilename: "static/css/[id].css"
     }),
     new webpack.NamedModulesPlugin(),
-    // Watcher doesn't work well if you mistype casing in a path so we use
-    // a plugin that prints an error when you attempt to do this.
-    // See https://github.com/facebook/create-react-app/issues/240
+    // 路径敏感
     new CaseSensitivePathsPlugin(),
-    // If you require a missing module and then `npm install` it, you still have
-    // to restart the development server for Webpack to discover it. This plugin
-    // makes the discovery automatic so you don't have to restart.
-    // See https://github.com/facebook/create-react-app/issues/186
+    // 检测缺失的npm modules
     new WatchMissingNodeModulesPlugin(paths.appNodeModules)
   ],
   devServer: {

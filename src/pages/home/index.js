@@ -1,111 +1,106 @@
 import React from "react";
-// import { Prompt } from 'react-router';
+import { Subject, from } from "rxjs";
+// import { Picker, List } from "antd-mobile";
+import Picker from 'antd/es/popconfirm';
+import List from 'antd/es/list';
+import 'antd/es/popconfirm/style';
+import 'antd/es/list/style';
 
-export class Home extends React.Component {
-  state = {
-    startPageX: 0,
-    draggable: false,
-    sliderWidth: 200
-  };
+import _ from "loadsh";
+
+export default class Home extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      classN: "hidden"
+    };
   }
 
   componentDidMount() {
-    const a = {
-      id: 1,
-      name: "a",
-      props: {
-        a: 1
-      }
+    // const source = from([1,2,3]);
+    // console.log(source);
+    // const subject = new Subject();
+    // const multicasted = source.multicast(subject);
+
+    // // 相当于subject.subscribe();
+    // multicasted.subscribe({
+    //   next: v => console.log('A' + v)
+    // });
+    // multicasted.subscribe({
+    //   next: v => console.log('B' + v)
+    // });
+
+    // // 相当于source.subscribe(subject)
+    // multicasted.connect();
+    let a = {
+      id: "1",
+      name: 1.2,
+      as: 0
     };
-    const b = {
-      id: 2,
-      name: "a",
-      props: {
-        a: 1
-      }
-    };
-    this.isObjectEqual(a, b);
+    this.objectValueToString(a);
+    console.log(this.objectValueToString(a));
+    console.log(a);
   }
 
-  /**
-   * @param a 对象
-   * @param b 对象
-   * @returns boolean 两个对象是否相等
-   * @memberof Home
-   */
-  isObjectEqual = (a, b) => {
-    if (
-      Object.prototype.toString.call(a) !== "[object Object]" ||
-      Object.prototype.toString.call(b) !== "[object Object]"
-    ) {
-      return a === b;
-    }
-    const aProps = Object.getOwnPropertyNames(a);
-    const bProps = Object.getOwnPropertyNames(b);
-    if (aProps.length !== bProps.length) {
-      return false;
-    }
-    for (let i = 0; i < aProps.length; i++) {
-      const propA = a[aProps[i]];
-      const propB = b[aProps[i]];
-      if (propA !== propB) {
-        if (Object.prototype.toString.call(propA) === "[object Object]") {
-          return this.isObjectEqual(propA, propB);
-        } else {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
-
-  dragStart = e => {
-    e.persist();
-    this.setState({
-      startPageX: e.pageX,
-      draggable: true
-    });
-  };
-
-  dragEnd = () => {
-    this.setState({
-      draggable: false
-    });
-  };
-
-  dragging = e => {
-    e.persist();
-    this.setState(prevState => {
-      if (prevState.draggable) {
-        let sliderWidth = prevState.sliderWidth + e.pageX - prevState.startPageX;
-        if (sliderWidth < 20 || sliderWidth > 300) return;
-        return { sliderWidth, startPageX: e.pageX };
+  objectValueToString = object => {
+    const newObj = {};
+    Object.keys(object).map(val => {
+      if (_.isNumber(object[val])) {
+        newObj[val] = object[val].toString();
       }
     });
+    return _.assign({}, object, newObj);
   };
+
+  click() {
+    const { classN } = this.state;
+    this.setState({
+      classN: classN == "hidden" ? "show" : "hidden"
+    });
+  }
 
   render() {
-    const { sliderWidth } = this.state;
-    const pxWidth = `${sliderWidth}px`;
+    const colors = [
+      {
+        label: (
+          <div>
+            <span style={{ backgroundColor: "#FF0000" }} />
+            <span>红色</span>
+          </div>
+        ),
+        value: "#FF0000"
+      },
+      {
+        label: (
+          <div>
+            <span style={{ backgroundColor: "#00FF00" }} />
+            <span>绿色</span>
+          </div>
+        ),
+        value: "#00FF00"
+      },
+      {
+        label: (
+          <div>
+            <span style={{ backgroundColor: "#0000FF" }} />
+            <span>蓝色</span>
+          </div>
+        ),
+        value: "#0000FF"
+      }
+    ];
     return (
       <div className="home">
-        {/* <Prompt when message="Are you sure?" /> */}
+        1
         <div
-          className="left"
-          onMouseDown={e => this.dragStart(e)}
-          onMouseMove={e => this.dragging(e)}
-          onMouseUp={this.dragEnd}
-          onMouseLeave={this.dragEnd}
-          style={{ width: pxWidth }}>
-          left-side
+          onClick={() => this.click()}
+          onTouchStart={() => console.log(2, +new Date())}>
+          asdadsdas
         </div>
-        <div className="right" style={{ left: pxWidth }}>
-          <div className="right-header">header</div>
-          <div className="right-center">center</div>
-          <div className="right-bottom">bottom</div>
-        </div>
+        <Picker data={colors} onVisibleChange={vis => console.log(vis)}>
+          <List.Item arrow="horizontal">Complex Labels</List.Item>
+        </Picker>
+        <div className={"animate " + this.state.classN}>12121</div>
       </div>
     );
   }

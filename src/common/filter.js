@@ -100,3 +100,35 @@ export function HasValue(val) {
   if (val === 0) return true;
   return !!val;
 }
+
+  /**
+   * @param a 对象
+   * @param b 对象
+   * @returns boolean 两个对象是否相等
+   * @memberof Home
+   */
+  isObjectEqual = (a, b) => {
+    if (
+      Object.prototype.toString.call(a) !== "[object Object]" ||
+      Object.prototype.toString.call(b) !== "[object Object]"
+    ) {
+      return a === b;
+    }
+    const aProps = Object.getOwnPropertyNames(a);
+    const bProps = Object.getOwnPropertyNames(b);
+    if (aProps.length !== bProps.length) {
+      return false;
+    }
+    for (let i = 0; i < aProps.length; i++) {
+      const propA = a[aProps[i]];
+      const propB = b[aProps[i]];
+      if (propA !== propB) {
+        if (Object.prototype.toString.call(propA) === "[object Object]") {
+          return this.isObjectEqual(propA, propB);
+        } else {
+          return false;
+        }
+      }
+    }
+    return true;
+  };

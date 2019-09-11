@@ -2,6 +2,7 @@
   position: relative;
   height: 400px;
   padding: 0 20px;
+  background-image: url('../images/home-bg.png');
 
   .left {
     position: absolute;
@@ -47,4 +48,16 @@
 .debounce-test {
   height: 5000px;
   background: #ccc;
+}
+
+.animate {
+  width: 100px;
+  transition: height ease-in-out 0.5s;
+  background: red;
+  &.show {
+    height: 200px;
+  }
+  &.hidden {
+    height: 100px;
+  }
 }

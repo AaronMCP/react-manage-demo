@@ -1,0 +1,86 @@
+.container{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+}
+
+div{
+    box-sizing: border-box
+}
+
+.tip{
+    position: absolute;
+    left:150px;
+    top:150px;
+    font-size: 50px;
+    color: plum;
+}
+
+.showTip-enter, .showTip-appear {
+  opacity: 0;
+  transform: scale(0);
+}
+.showTip-enter-active, .showTip-appear-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 500ms, transform 500ms;
+}
+.showTip-exit {
+  transform: scale(1);
+  opacity: 1;
+}
+.showTip-exit-active {
+  opacity: 0;
+  transform: scale(0);
+  transition: opacity 500ms, transform 500ms;
+}
+
+.button-container{
+    width: 150px;
+    height: 150px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.button-container div {
+    background: yellowgreen;
+    border-radius: 10px;
+    line-height: 40px;
+    text-align: center;
+}
+
+.left{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 55px;
+    left: 0;
+}
+
+.up{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 0;
+    left: 55px;
+}
+
+.right{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 55px;
+    right: 0;
+}
+
+.down{
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    bottom: 0;
+    left: 55px;
+}
+
