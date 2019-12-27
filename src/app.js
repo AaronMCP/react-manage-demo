@@ -1,12 +1,17 @@
 import React from "react";
 import ReactDom from "react-dom";
-import { BrowserRouter as Router, Route, NavLink } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  NavLink,
+  Switch
+} from "react-router-dom";
 import { Redirect } from "react-router";
+import { NotFound } from "./pages/components";
 import { routerConfig } from "./router-config";
 import "./styles/index.scss";
 
-
-const RouterRender = ({ routerConfig, ...other }) => {
+const RouterRender = routerConfig => {
   return routerConfig.map(route => {
     const { path, exact, props } = route;
     const obj = {
@@ -19,7 +24,7 @@ const RouterRender = ({ routerConfig, ...other }) => {
         {...obj}
         render={_props => {
           let { key } = _props.location;
-          return <route.component {..._props} {...props} {...other} key={key} />;
+          return <route.component {..._props} {...props} key={key} />;
         }}/>
     );
   });
@@ -49,10 +54,17 @@ class App extends React.Component {
             <NavLink to="/VList" activeClassName="selected">
               VList
             </NavLink>
+            <NavLink to="/hooks" activeClassName="selected">
+              Hooks
+            </NavLink>
           </div>
           <div className="container">
-            <RouterRender routerConfig={routerConfig} {...this.props} />
-            <Route exact path="/" render={() => <Redirect to="/Home" />} />
+            <Switch>
+              {/* <RouterRender routerConfig={routerConfig} {...this.props} /> */}
+              {RouterRender(routerConfig)}
+              <Route exact path="/" render={() => <Redirect to="/Home" />} />
+              <Route path="*" render={() => <NotFound />} />
+            </Switch>
           </div>
         </Router>
       </div>
